@@ -1,6 +1,6 @@
 {
   "name": "taleem-pivot-player",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Timing-based Taleem slide player with audio sync",
   "main": "index.js",
   "module": "index.js",
@@ -15,7 +15,8 @@
   "files": [
     "*.svelte",
     "*.js",
-    "slides/"
+    "slides/",
+     "background/"
   ],
   "keywords": [
     "svelte",
