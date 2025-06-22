@@ -1,0 +1,29 @@
+{
+  "name": "taleem-pivot-player",
+  "version": "0.9.0",
+  "description": "Timing-based Taleem slide player with audio sync",
+  "main": "index.js",
+  "module": "index.js",
+  "svelte": "index.js",
+  "exports": {
+    ".": {
+      "svelte": "./index.js"
+    },
+    "./Player": "./Player.js",
+    "./SlideMap": "./SlideMap.js"
+  },
+  "files": [
+    "*.svelte",
+    "*.js",
+    "slides/"
+  ],
+  "keywords": [
+    "svelte",
+    "presentation",
+    "audio",
+    "education",
+    "deck"
+  ],
+  "author": "Taleem.Help",
+  "license": "ISC"
+}
