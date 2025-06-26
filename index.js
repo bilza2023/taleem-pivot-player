@@ -1,10 +1,8 @@
 // index.js
-import PivotPlayer from './PivotPlayer.svelte';
-import Player from './Player.js';
-import SlideMap from './SlideMap.js';
 
-export {
-  PivotPlayer,
-  Player,
-  SlideMap
-};
+// Export Svelte component cleanly
+export { default as PivotPlayer } from './PivotPlayer.svelte';
+
+// Normal named exports
+export { default as Player } from './Player.js';
+export { default as SlideMap } from './SlideMap.js';
