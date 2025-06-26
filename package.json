@@ -5,13 +5,16 @@
   "main": "index.js",
   "module": "index.js",
   "svelte": "index.js",
+ 
   "exports": {
-    ".": {
-      "svelte": "./index.js"
-    },
-    "./Player": "./Player.js",
-    "./SlideMap": "./SlideMap.js"
+  ".": {
+    "import": "./index.js",
+    "svelte": "./index.js"
   },
+  "./Player": "./Player.js",
+  "./SlideMap": "./SlideMap.js"
+},
+
   "files": [
     "*.svelte",
     "*.js",
