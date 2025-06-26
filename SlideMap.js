@@ -18,8 +18,10 @@ import BulletList from './slides/BulletList.svelte';
 import BigNumber from './slides/BigNumber.svelte';
 import QuoteWithImage from './slides/QuoteWithImage.svelte';
 import ContactSlide from './slides/ContactSlide.svelte';
+import Eq from './slides/eq/Eq.svelte';
 
 export default {
+  eq: Eq,
   quoteSlide: Quote,
   cornerWordsSlide: CornerWords,
   titleSlide: Title,

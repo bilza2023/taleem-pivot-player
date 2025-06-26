@@ -11,13 +11,13 @@ A timing-aware slide renderer built in Svelte — designed to play animated educ
 npm i taleem-pivot-player
 ````
 
-To create decks that work with this player:
+To create decks compatible with this player:
 
 ```bash
 npm i taleem-pivot-deckbuilder
 ```
 
-> ⚠️ The player and the deckbuilder must be used together. Slide data contracts and timing rules are tightly integrated.
+> ⚠️ The player and deckbuilder must be used together. They share strict timing and data contracts.
 
 ---
 
@@ -25,10 +25,10 @@ npm i taleem-pivot-deckbuilder
 
 This player:
 
-* Renders slide decks composed using the `DeckBuilder` API
-* Animates slide items based on `showAt` timings
-* Syncs all content to background audio (via Howler.js)
-* Automatically switches slides as time progresses
+* Renders decks built with the `DeckBuilder` API
+* Animates items using `showAt` delays
+* Plays audio in sync with slides (via Howler.js)
+* Auto-advances slides using `start` and `end` values
 
 ---
 
@@ -37,19 +37,19 @@ This player:
 Each slide uses:
 
 ```js
-deckbuilder.s.slideType(endTime, [ { name, content, showAt } ])
+deckbuilder.s.slideType(end, [ { name, content, showAt } ])
 ```
 
-The player reads the deck and renders slides one by one based on:
+Slides render based on:
 
-* `start` and `end` define the visibility window for a slide
-* Each item appears when `currentTime >= slide.start + showAt`
+* `start` and `end` → control visibility window
+* `showAt` → item appears when `currentTime >= start + showAt`
 
 ---
 
-### ✅ Timing-Sensitive Slides
+### ✅ Timing-Aware Slides
 
-These slides reveal items based on `showAt`:
+These slides support precise animation per item:
 
 #### `bulletList`
 
@@ -106,11 +106,32 @@ deckbuilder.s.twoColumnText(10, [
 ]);
 ```
 
+#### `eq` *(NEW!)*
+
+```js
+const eq = deckbuilder.s.eq(60);
+
+eq.addLine({ type: "heading", content: "Math Showcase", showAt: 0 });
+eq.addSp({ type: "heading", content: "Famous Formulas" });
+
+eq.addLine({ type: "math", content: "E = mc^2", showAt: 5 });
+eq.addSp({ type: "math", content: "E = mc^2" });
+
+eq.addLine({ type: "text", content: "Energy and mass are interchangeable", showAt: 15 });
+eq.addSp({ type: "text", content: "Einstein's insight" });
+```
+
+* EQ slides allow dual-channel control:
+
+  * `addLine()` → controls timing
+  * `addSp()` → defines sidebar content
+* For more: [EQ Slide Format](./docs/eq.md)
+
 ---
 
-### 📌 Static Slides (No `showAt` logic required)
+### 📌 Static Slides (All items appear at once)
 
-These render all content at once:
+These slides don’t animate individual items:
 
 * `titleSlide`
 * `imageSlide`
@@ -122,26 +143,25 @@ These render all content at once:
 * `bigNumber`
 * `quoteWithImage`
 * `contactSlide`
-* `quoteSlide` (can support optional line timing)
+* `quoteSlide` *(can optionally animate line-by-line)*
 
 ---
 
 ## 🧩 Deck Format
 
-Although the player receives a **deck as JSON**, you should always generate this JSON using the `taleem-pivot-deckbuilder` package.
+Decks are exported via `deckbuilder.build()` and passed to the player as JSON.
 
 The DeckBuilder ensures:
 
-* Slides are correctly timed (`start`, `end`)
-* Items use `showAt` relative to their slide
-* The output structure is valid and player-compatible
-
-Example deck:
+* Valid slide structure
+* Auto-calculated `start`
+* Required `end` and `showAt` values
+* Player-compatible formatting
 
 ```js
 import { DeckBuilder } from "taleem-pivot-deckbuilder";
-const deckbuilder = new DeckBuilder();
 
+const deckbuilder = new DeckBuilder();
 deckbuilder.s.bulletList(10, [
   { name: "bullet", content: "Physics", showAt: 0 },
   { name: "bullet", content: "Chemistry", showAt: 1 }
@@ -154,12 +174,10 @@ export const deck = deckbuilder.build();
 
 ## ⏱ Timing Control
 
-* Each slide has an `end` time (required)
-* Items inside the slide use `showAt` (default: 0)
-* Items appear at `slide.start + showAt`
-* If `showAt` exceeds the slide duration, item won’t appear
-
-Use the DeckBuilder to manage these offsets automatically.
+* `start` is inferred by the DeckBuilder
+* `end` is required for every slide
+* `showAt` is relative to slide start
+* If `showAt + start > end`, item won’t appear
 
 ---
 
@@ -184,8 +202,25 @@ Use the DeckBuilder to manage these offsets automatically.
 
 ---
 
+## 📚 Developer Docs
+
+* [DeckBuilder API](./docs/api.md)
+* [Slide Timing System](./docs/timing.md)
+* [EQ Slide Format](./docs/eq.md)
+
+---
+
 ## 📣 License
 
 ISC License — MIT-compatible
 Built by Taleem.Help
 
+---
+
+### 🔗 References
+
+* [https://www.npmjs.com/package/taleem-pivot-deckbuilder](https://www.npmjs.com/package/taleem-pivot-deckbuilder)
+* `npm i taleem-pivot-deckbuilder`
+
+```
+```
